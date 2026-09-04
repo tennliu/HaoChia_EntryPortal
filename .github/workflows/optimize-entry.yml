@@ -1,0 +1,171 @@
+name: Optimize EntryPortal self-contained build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/optimize-entry.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Localize assets and improve critical loading
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          root=Path('.')
+          webp=root/'web/index.html'; phonep=root/'phone/index.html'
+          wcssp=root/'web/css/style.css'; pcssp=root/'phone/css/style.css'
+          web=webp.read_text(); phone=phonep.read_text(); wcss=wcssp.read_text(); pcss=pcssp.read_text()
+
+          # Self-host first-party assets previously served from no-ttt.github.io.
+          web=web.replace('https://no-ttt.github.io/HaoChia/web/assets/logo.svg','../shared/assets/local/web/logo.svg')
+          web=web.replace('https://no-ttt.github.io/HaoChia/web/assets/p2_img_2.svg','../shared/assets/local/web/p2_img_2.svg')
+          web=web.replace('https://no-ttt.github.io/HaoChia/web/assets/mail-icon.svg','../shared/assets/local/web/mail-icon.svg')
+          for name in ['p1_logo.svg','p2_bg.svg','p2_img_2.svg','p4_bg.svg','arrow_icon.svg','mail-icon.svg','p4_icon.svg']:
+              phone=phone.replace(f'https://no-ttt.github.io/HaoChia/phone/assets/{name}',f'../shared/assets/local/phone/{name}')
+
+          wcss=wcss.replace('https://no-ttt.github.io/HaoChia/web/assets/fonts/SourceHanSansTC-Medium.woff2','../../shared/assets/fonts/SourceHanSansTC-Medium.woff2')
+          wcss=wcss.replace('https://no-ttt.github.io/HaoChia/web/assets/fonts/SourceHanSansTC-Bold.woff2','../../shared/assets/fonts/SourceHanSansTC-Bold.woff2')
+          pcss=pcss.replace('https://no-ttt.github.io/HaoChia/phone/assets/fonts/SourceHanSansTC-Medium.woff2','../../shared/assets/fonts/SourceHanSansTC-Medium.woff2')
+          pcss=pcss.replace('https://no-ttt.github.io/HaoChia/phone/assets/fonts/SourceHanSansTC-Bold.woff2','../../shared/assets/fonts/SourceHanSansTC-Bold.woff2')
+          pcss=pcss.replace('https://no-ttt.github.io/HaoChia/phone/assets/p1_bg.svg','../../shared/assets/local/phone/p1_bg.svg')
+
+          # Preload the two local font weights so the locked master layouts settle early.
+          preload='''<link rel="preload" href="../shared/assets/fonts/SourceHanSansTC-Medium.woff2" as="font" type="font/woff2" crossorigin/>\n<link rel="preload" href="../shared/assets/fonts/SourceHanSansTC-Bold.woff2" as="font" type="font/woff2" crossorigin/>\n'''
+          anchor='<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>\n'
+          if 'SourceHanSansTC-Medium.woff2" as="font"' not in web: web=web.replace(anchor,anchor+preload,1)
+          if 'SourceHanSansTC-Medium.woff2" as="font"' not in phone: phone=phone.replace(anchor,anchor+preload,1)
+
+          # Defer large below-fold art without changing any dimensions/positioning.
+          web=web.replace('<img alt="" aria-hidden="true" class="section-p2__bg" src="../shared/assets/tl/asset45-p2-bg.svg"/>','<img alt="" aria-hidden="true" class="section-p2__bg" loading="lazy" decoding="async" src="../shared/assets/tl/asset45-p2-bg.svg"/>')
+          web=web.replace('<img class="partner-cloud cloud-scroll" src="../shared/assets/tl/asset31-cloud.svg" alt=""/>','<img class="partner-cloud cloud-scroll" loading="lazy" decoding="async" src="../shared/assets/tl/asset31-cloud.svg" alt=""/>')
+          web=web.replace('<img alt="Tech-driven Sustainability" class="pos partner-tagline" data-aos="fade-up" src="../shared/assets/tl/tech.svg"/>','<img alt="Tech-driven Sustainability" class="pos partner-tagline" data-aos="fade-up" loading="lazy" decoding="async" src="../shared/assets/tl/tech.svg"/>')
+          web=web.replace('<img alt="LINE 官方帳號 QR Code" data-aos="zoom-in" src="../shared/assets/line-qr.svg"/>','<img alt="LINE 官方帳號 QR Code" data-aos="zoom-in" loading="lazy" decoding="async" src="../shared/assets/line-qr.svg"/>')
+
+          phone=phone.replace('<img alt="智慧好嘉飛翔豬吉祥物" class="p2-mascot" data-aos="zoom-in" src="../shared/assets/tl/asset53-mobile-efficient.svg"/>','<img alt="智慧好嘉飛翔豬吉祥物" class="p2-mascot" data-aos="zoom-in" loading="lazy" decoding="async" src="../shared/assets/tl/asset53-mobile-efficient.svg"/>')
+          phone=phone.replace('<img alt="" class="p2-bg" src="../shared/assets/local/phone/p2_bg.svg"/>','<img alt="" class="p2-bg" loading="lazy" decoding="async" src="../shared/assets/local/phone/p2_bg.svg"/>')
+          phone=phone.replace('<img alt="從牧場到農場資源循環示意圖" data-aos="zoom-in" src="../shared/assets/local/phone/p2_img_2.svg"/>','<img alt="從牧場到農場資源循環示意圖" data-aos="zoom-in" loading="lazy" decoding="async" src="../shared/assets/local/phone/p2_img_2.svg"/>')
+          phone=phone.replace('<img alt="智慧好嘉酪梨吉祥物 Fruitful，酪梨切面特寫" class="sec3-fruit" src="../shared/assets/tl/asset52-mobile-fruit.svg"/>','<img alt="智慧好嘉酪梨吉祥物 Fruitful，酪梨切面特寫" class="sec3-fruit" loading="lazy" decoding="async" src="../shared/assets/tl/asset52-mobile-fruit.svg"/>')
+          phone=phone.replace('<img alt="" aria-hidden="true" class="sec3-cloud" src="../shared/assets/tl/asset31-cloud.svg"/>','<img alt="" aria-hidden="true" class="sec3-cloud" loading="lazy" decoding="async" src="../shared/assets/tl/asset31-cloud.svg"/>')
+          phone=phone.replace('<img alt="Do Good! 智慧好嘉吉祥物插畫" class="sec4-wave" src="../shared/assets/local/phone/p4_bg.svg"/>','<img alt="Do Good! 智慧好嘉吉祥物插畫" class="sec4-wave" loading="lazy" decoding="async" src="../shared/assets/local/phone/p4_bg.svg"/>')
+
+          # Desktop loader: do not block first paint on every image/video. Wait for local fonts, max 900 ms.
+          old="""    var imgs=Array.prototype.slice.call(document.querySelectorAll('img'));\n    var videos=Array.prototype.slice.call(document.querySelectorAll('video'));\n    var pending=imgs.length+videos.length;\n"""
+          if old in web: web=web.replace(old,"    var pageRevealed=false;\n",1)
+          old2="""    function revealPage(){document.body.classList.remove('is-loading');if(window.AOS)AOS.init({once:true,duration:620,offset:45,easing:'ease-out-cubic'});requestAnimationFrame(initCloudScrollMotion);}\n    function check(){pending--;if(pending<=0)revealPage();}\n    var failSafe=setTimeout(revealPage,6500);\n    if(pending===0){clearTimeout(failSafe);revealPage();}else{\n      imgs.forEach(function(img){if(img.complete)check();else{img.addEventListener('load',check,{once:true});img.addEventListener('error',check,{once:true});}});\n      videos.forEach(function(video){if(video.readyState>=3)check();else{video.addEventListener('canplay',check,{once:true});video.addEventListener('error',check,{once:true});}});\n    }\n"""
+          new2="""    function revealPage(){if(pageRevealed)return;pageRevealed=true;document.body.classList.remove('is-loading');if(window.AOS)AOS.init({once:true,duration:620,offset:45,easing:'ease-out-cubic'});requestAnimationFrame(initCloudScrollMotion);}\n    function revealCritical(){requestAnimationFrame(function(){requestAnimationFrame(revealPage);});}\n    function scheduleReveal(){if(document.fonts&&document.fonts.ready){Promise.race([document.fonts.ready,new Promise(function(resolve){setTimeout(resolve,900);})]).then(revealCritical,revealCritical);}else revealCritical();}\n    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',scheduleReveal,{once:true});else scheduleReveal();\n"""
+          if old2 in web: web=web.replace(old2,new2,1)
+
+          # Mobile loader: same strategy, while preserving current AOS/cloud init.
+          old="var imgs=Array.prototype.slice.call(document.querySelectorAll('img')),videos=Array.prototype.slice.call(document.querySelectorAll('video')),pending=imgs.length+videos.length,done=false;\n"
+          if old in phone: phone=phone.replace(old,'var done=false;\n',1)
+          old="function check(){pending--;if(pending<=0)revealAndInit()}setTimeout(revealAndInit,6500);\n"
+          if old in phone: phone=phone.replace(old,'',1)
+          old="""function revealAndInit(){revealPage();requestAnimationFrame(initCloudSlides);}\nif(pending===0)revealAndInit();else{imgs.forEach(function(img){if(img.complete)check();else{img.addEventListener('load',check,{once:true});img.addEventListener('error',check,{once:true})}});videos.forEach(function(v){if(v.readyState>=3)check();else{v.addEventListener('canplay',check,{once:true});v.addEventListener('error',check,{once:true})}})}\n"""
+          new="""function revealAndInit(){revealPage();requestAnimationFrame(initCloudSlides);}\nfunction revealCritical(){requestAnimationFrame(function(){requestAnimationFrame(revealAndInit);});}\nfunction scheduleReveal(){if(document.fonts&&document.fonts.ready){Promise.race([document.fonts.ready,new Promise(function(resolve){setTimeout(resolve,900);})]).then(revealCritical,revealCritical);}else revealCritical();}\nif(document.readyState==='loading')document.addEventListener('DOMContentLoaded',scheduleReveal,{once:true});else scheduleReveal();\n"""
+          if old in phone: phone=phone.replace(old,new,1)
+
+          webp.write_text(web); phonep.write_text(phone); wcssp.write_text(wcss); pcssp.write_text(pcss)
+
+          # Fail the build if any legacy first-party runtime dependency remains.
+          remaining=[]
+          for p in [webp,phonep,wcssp,pcssp]:
+              if 'no-ttt.github.io/HaoChia' in p.read_text(): remaining.append(str(p))
+          if remaining: raise SystemExit('Legacy runtime refs remain: '+', '.join(remaining))
+          PY
+
+      - name: Add portable font rebuild script
+        run: |
+          mkdir -p scripts
+          cat > scripts/rebuild-fonts.sh <<'SH'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+          SOURCE_HAN_DIR="${SOURCE_HAN_DIR:-$ROOT/font-source}"
+          DEST="$ROOT/shared/assets/fonts"
+          MEDIUM="$SOURCE_HAN_DIR/SourceHanSansTC-Medium.otf"
+          BOLD="$SOURCE_HAN_DIR/SourceHanSansTC-Bold.otf"
+          for f in "$MEDIUM" "$BOLD"; do
+            [[ -f "$f" ]] || { echo "Missing source font: $f"; echo "Set SOURCE_HAN_DIR=/path/to/SourceHanSansTC OTF files."; exit 1; }
+          done
+          command -v fonttools >/dev/null || { echo 'Install: pip3 install fonttools brotli'; exit 1; }
+          TMP="$(mktemp)"; trap 'rm -f "$TMP"' EXIT
+          python3 - "$ROOT" "$TMP" <<'PY'
+          from pathlib import Path
+          import re,sys
+          root=Path(sys.argv[1]); out=Path(sys.argv[2])
+          chars=set()
+          # Include all CJK/Chinese punctuation present in runtime HTML + Guide JS.
+          for p in [root/'web/index.html',root/'phone/index.html',root/'shared/guide-v47.js',root/'shared/guide-v47-1.js']:
+              if p.exists():
+                  text=p.read_text(encoding='utf-8')
+                  chars.update(c for c in text if ord(c)>=0x3000)
+          out.write_text(''.join(sorted(chars)),encoding='utf-8')
+          print(f'Collected {len(chars)} non-ASCII/CJK glyphs')
+          PY
+          mkdir -p "$DEST"
+          COMMON=(--flavor=woff2 --text="$(cat "$TMP")" --unicodes='U+0020-007E,U+00A9,U+2013-2014' --layout-features='*' --recommended-glyphs --name-IDs='*' --name-legacy --name-languages='*')
+          fonttools subset "$MEDIUM" --output-file="$DEST/SourceHanSansTC-Medium.woff2" "${COMMON[@]}"
+          fonttools subset "$BOLD" --output-file="$DEST/SourceHanSansTC-Bold.woff2" "${COMMON[@]}"
+          ls -lh "$DEST"/*.woff2
+          SH
+          chmod +x scripts/rebuild-fonts.sh
+
+      - name: Write EntryPortal handoff README
+        run: |
+          cat > README.md <<'MD'
+          # HaoChia EntryPortal
+
+          Independent optimized copy of the published HaoChia Portal. The client-facing `tennliu/HaoChia_Portal` repository is not modified by this repository.
+
+          ## Layout model
+          - Root `index.html`: redirects by viewport width.
+          - `web/`: desktop/tablet, 1000px master stage scaled proportionally.
+          - `phone/`: mobile, 430px master stage scaled down proportionally; >=768px redirects to desktop.
+          - `shared/`: Guide UI/behavior and shared assets.
+
+          ## Optimization differences from v47.1 source
+          - Source Han Sans TC Medium/Bold are self-hosted in `shared/assets/fonts/`.
+          - Former `no-ttt.github.io/HaoChia/...` first-party dependencies are snapshotted under `shared/assets/local/` and referenced relatively.
+          - Medium/Bold are preloaded on desktop and mobile.
+          - Large below-fold images use native lazy loading / async decoding where geometry is already fixed by CSS.
+          - Page reveal no longer waits for every image/video. It waits for the local fonts, with a 900ms ceiling, then initializes AOS/current motion.
+          - Existing v47.1 Guide, 1000px desktop master, 430px mobile master, section seam fix, Guide video fade/collapse, and Guide cue behavior are preserved.
+
+          ## Font maintenance
+          Runtime WOFF2 files are already committed. If Chinese copy changes and introduces new glyphs, rebuild them with:
+
+          ```bash
+          pip3 install fonttools brotli
+          SOURCE_HAN_DIR=/path/to/source-han-otf ./scripts/rebuild-fonts.sh
+          ```
+
+          `SOURCE_HAN_DIR` must contain `SourceHanSansTC-Medium.otf` and `SourceHanSansTC-Bold.otf`. Source font files are intentionally not committed here.
+
+          ## External runtime dependencies intentionally retained
+          - AOS library from unpkg CDN.
+          - Destination links such as HaoChia, BeGood, LINE and government services.
+
+          All project-owned visual assets, video, poster and web fonts used by the rendered page are local to this repository.
+
+          ## QA
+          Test from the root URL as well as direct `/web/` and `/phone/` URLs. When testing a different device width in DevTools, reload after changing the viewport so the redirect runs with the intended width.
+          MD
+
+      - name: Commit optimized EntryPortal
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add web phone shared scripts README.md
+          git commit -m 'optimize: self-host fonts and first-party assets; unblock first paint'
+          git push origin main
