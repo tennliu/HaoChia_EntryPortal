@@ -1,0 +1,39 @@
+/* HaoChia v45 — 430px mobile master stage.
+   The composition is authored once at 430px and scales down uniformly below it.
+   No mobile reflow/breakpoint repositioning is allowed inside the master stage. */
+html,body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+  background:#0e1a46;
+}
+body{
+  position:relative;
+  min-width:0;
+  min-height:0 !important;
+}
+.page{
+  position:absolute !important;
+  top:0;
+  width:430px !important;
+  min-width:430px !important;
+  max-width:430px !important;
+  margin:0 !important;
+  transform-origin:top left !important;
+  background:#0e1a46;
+}
+
+/* Freeze the 430px master typography even when the viewport itself is <=360px.
+   The whole stage is scaled by JS instead of reflowing individual elements. */
+@media (max-width:430px){
+  .sec1-hero .sec1-copy,
+  .sec-body{
+    font-size:17px !important;
+    line-height:27px !important;
+  }
+  .sec-title{font-size:30px !important;}
+  .doGood-links li{font-size:20px !important;}
+}
+
+/* v46.10 — hide the 1px anti-alias seam between the cycle section and Fruitful section. */
+.sec3{margin-top:-1px !important;}

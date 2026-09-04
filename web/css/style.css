@@ -1,0 +1,962 @@
+@font-face{font-family:"Source Han Sans TC";src:url("https://no-ttt.github.io/HaoChia/web/assets/fonts/SourceHanSansTC-Medium.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Source Han Sans TC";src:url("https://no-ttt.github.io/HaoChia/web/assets/fonts/SourceHanSansTC-Bold.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+:root{--color-blue-light:#def1fb;--color-blue:#004ea2;--color-blue-dark:#0e357f;--color-green:#009e3b;--color-white:#fff;--font-body:"Source Han Sans TC","Noto Sans TC",sans-serif;--p1-w:1480;--p1-h:1839;--p2-w:1481;--p2-h:1926;--motion-distance:18px;--motion-duration:620ms}
+*{box-sizing:border-box}html{overflow-x:hidden;scroll-behavior:auto}body{margin:0;padding:0;overflow-x:hidden;font-family:var(--font-body);color:var(--color-blue-dark);-webkit-font-smoothing:antialiased}img{max-width:100%;display:block}
+body.is-loading .page{visibility:hidden}.page-loader{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:#fff;transition:opacity .3s ease}body:not(.is-loading) .page-loader{opacity:0;pointer-events:none}.page-loader-logo{width:120px;animation:page-loader-pulse 1.2s ease-in-out infinite}@keyframes page-loader-pulse{0%,100%{opacity:.4;transform:scale(.94)}50%{opacity:1;transform:scale(1)}}
+.hover-float{transition:transform .45s cubic-bezier(.2,.7,.2,1),filter .45s ease}.hover-float:hover{transform:translateY(-4px) scale(1.015);filter:drop-shadow(0 8px 14px rgba(0,0,0,.10))}
+.section-p1{position:relative;width:100%;aspect-ratio:var(--p1-w)/2010;overflow:hidden;background:#fff}.section-p1__bg{position:absolute;top:0;left:0;width:100%;height:calc(100% * var(--p1-h)/2010);z-index:0}.section-p1__layer,.section-p2__layer{position:absolute;inset:0;width:100%;height:100%;z-index:1}.pos{position:absolute;margin:0}.logo{top:1.94%;left:44%;width:15.61%}.hero-photo-placeholder{top:12%;left:9.45%;width:40.54%;aspect-ratio:600/338.46;background:#898989;overflow:hidden}.hero-photo-placeholder video{width:100%;height:100%;object-fit:cover;display:block}.hero-text{top:30.2%;left:9.45%;width:40.1%;color:var(--color-white);font-size:1.736vw;font-weight:500;line-height:1.6;letter-spacing:.06em}.about-heading{top:50.1%;left:9.45%;color:var(--color-white);font-size:2.778vw;font-weight:700;line-height:1.08;letter-spacing:.06em;white-space:nowrap}.about-mascot{top:44.77%;left:60.81%;width:30.41%}.about-text{top:54.35%;left:9.45%;width:39.1%;color:var(--color-white);font-size:1.736vw;font-weight:500;line-height:1.6;letter-spacing:.06em}.cycle-diagram{top:72.64%;left:6.42%;width:41.22%}.cycle-heading{top:71.5%;left:52.1%;color:var(--color-blue-dark);font-size:2.778vw;font-weight:700;line-height:1.08;letter-spacing:.06em;white-space:nowrap}.cycle-text{top:75.45%;left:52.1%;width:38.4%;color:var(--color-blue-dark);font-size:1.736vw;font-weight:500;line-height:1.6;letter-spacing:.06em}
+.section-p2{position:relative;width:100%;aspect-ratio:var(--p2-w)/var(--p2-h);overflow:hidden;margin-top:-6.9%;z-index:2}.section-p2__bg{position:absolute;inset:0;width:100%;height:100%;z-index:0}.partner-heading{top:13.55%;left:9.46%;color:#fff;font-size:2.778vw;font-weight:700;line-height:1.08;letter-spacing:.06em;white-space:nowrap}.partner-text{top:17.55%;left:9.46%;width:39.2%;color:#fff;font-size:1.736vw;font-weight:500;line-height:1.6;letter-spacing:.06em}.cta-heading{top:47.9%;left:39.65%;color:#fff;font-size:3.472vw;font-weight:700;line-height:1.05;letter-spacing:.06em;white-space:nowrap}.cta-list{position:absolute;top:54.85%;left:49.8%;margin:0;padding:0;list-style:none;color:#fff;font-size:2.543vw;font-weight:500;line-height:1.05;letter-spacing:.04em}.cta-list li{margin-bottom:1.55vw}.cta-list li::before{content:"> ";font-weight:700}.qrcode{top:53.55%;left:71.2%;width:14.3%}.footer-logo{top:78.35%;left:40.51%;width:11.48%}.footer-mail-icon{top:79.6%;left:68.54%;width:2.03%}.footer-mail-text{top:80.82%;left:64.8%;color:var(--color-blue);font-size:.972vw;font-weight:700;letter-spacing:.02em;white-space:nowrap}.footer-tel-icon{top:79.1%;left:80.69%;width:2.57%}.footer-tel-text{top:80.97%;left:79.02%;color:var(--color-blue);font-size:.972vw;font-weight:700;letter-spacing:.02em;white-space:nowrap}.footer-copyright{top:92.22%;left:40.79%;color:#fff;font-size:.82vw;font-weight:500;white-space:nowrap}
+.fab{position:fixed;right:0;top:50%;transform:translateY(-50%);width:56px;height:56px;z-index:50;border:0;padding:0;background:none;cursor:pointer;filter:drop-shadow(0 4px 10px rgba(0,0,0,.20));transition:opacity .2s ease,transform .25s ease}.fab:hover{transform:translateY(-50%) translateX(-3px)}.fab img{width:100%;height:100%}.fab.hidden{opacity:0;pointer-events:none}.fab-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,158,59,.82);opacity:0;pointer-events:none;transition:opacity .25s ease}.fab-overlay.open{opacity:1;pointer-events:auto}.fab-overlay-menu{position:relative;z-index:2;list-style:none;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:32px;height:100%;padding:0 48px;margin:0}.fab-overlay-menu a{font-size:32px;font-weight:700;color:#fff;letter-spacing:.04em;text-decoration:none;text-align:right}
+@media (min-width:1441px){.hero-text,.about-text,.cycle-text,.partner-text{font-size:25px}.about-heading,.cycle-heading,.partner-heading{font-size:40px}.cta-heading{font-size:50px}.cta-list{font-size:36.62px}.footer-mail-text,.footer-tel-text{font-size:14px}}
+@media (max-width:1050px) and (min-width:768px){.hero-text,.about-text,.cycle-text,.partner-text{font-size:1.78vw;line-height:1.55}.about-heading,.cycle-heading,.partner-heading{font-size:2.82vw}.cta-heading{font-size:3.35vw}.cta-list{font-size:2.4vw}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hover-float,.fab{transition:none!important}[data-aos]{transition:none!important;transform:none!important}}
+
+/* TL rebase: current content/features on engineer visual geometry */
+.cta-list a{color:inherit;text-decoration:none}.cta-list li{white-space:nowrap}.footer-mail-text{text-decoration:none}.qrcode img{width:100%;height:auto;display:block}.qrcode{display:block}.guide-source-video{transition:opacity .2s ease}
+
+/* TL v1 refinement — requested 2026-09-01; engineer geometry remains the base */
+.logo{display:none}
+.fab:hover{transform:translateY(-50%)}
+.fab{filter:drop-shadow(0 4px 10px rgba(0,0,0,.20));border:0;outline:0}
+.hero-cloud{top:17.2%;left:72.4%;width:24.1%;z-index:3;pointer-events:none}
+.about-text{top:calc(54.35% - 5px)}
+.cycle-text{top:calc(75.45% - 5px)}
+.partner-text{top:calc(17.55% - 5px)}
+.partner-cloud{top:37.9%;left:-.5%;width:43%;z-index:2;pointer-events:none}
+.partner-tagline{top:29.6%;left:9.46%;width:31.8%;z-index:3}
+.cta-heading{left:49.8%;font-size:2.55vw}
+.cta-list{top:53.55%;left:49.8%;display:flex;flex-direction:column;gap:0}
+.cta-list li{display:flex;align-items:center;gap:.85vw;margin-bottom:1.55vw}
+.cta-list li::before{content:none}
+.cta-arrow{width:1.55vw;max-width:23px;min-width:14px;flex:0 0 auto}
+.footer-copyright{font-size:.972vw;font-weight:700;letter-spacing:.02em;color:#fff}
+@media (min-width:1441px){.cta-heading{font-size:36.7px}.footer-copyright{font-size:14px}}
+
+
+/* TL asset alignment pass — 2026-09-01 */
+/* Keep the new p2 artwork at its original proportion, shift it upward 100px,
+   and let the section's dark-blue base safely fill the final lower edge. */
+.section-p2{background:var(--color-blue-dark)}
+.section-p2__bg{top:-100px;bottom:auto;height:auto}
+
+/* Asset 46: enlarge the complete Efficient + runner artwork by ~20%. */
+.about-mascot{width:36.49%}
+
+/* First narrative block: ~10% lower than the previous 30.2% anchor. */
+.hero-text{top:33.2%}
+
+/* Cloud edge-entry states. Their final state is exactly flush to the viewport edge. */
+.hero-cloud{
+  left:auto;right:0;
+  transform:translateX(50px);
+  transition:transform 720ms cubic-bezier(.42,0,1,1);
+  will-change:transform;
+}
+.partner-cloud{
+  left:0;
+  top:calc(37.9% - 100px);
+  transform:translateX(-50px);
+  transition:transform 720ms cubic-bezier(.42,0,1,1);
+  will-change:transform;
+}
+.hero-cloud.cloud-in,.partner-cloud.cloud-in{transform:translateX(0)}
+@media (prefers-reduced-motion:reduce){
+  .hero-cloud,.partner-cloud{transform:none!important;transition:none!important}
+}
+
+
+/* TL asset alignment pass v3 — requested update */
+/* 1 & 6: asset45 comes down 50px from the previous -100px offset; asset31 follows it. */
+.section-p2__bg{top:-50px}
+.partner-cloud{top:calc(37.9% - 50px)}
+
+/* 2: Efficient artwork 20px left from its current anchor. */
+.about-mascot{left:calc(60.81% - 20px)}
+
+/* 3: first paragraph 10px up from the previous pass. */
+.hero-text{top:calc(33.2% - 10px)}
+
+/* 4–5: faster edge-entry cloud motion. */
+.hero-cloud,.partner-cloud{
+  transition:transform 280ms cubic-bezier(.42,0,1,1);
+}
+
+
+/* TL requested update — 2026-09-02 */
+.section-p2{margin-top:0}
+.section-p2__bg{top:0}
+.about-mascot{left:calc(60.81% - 15px)}
+.header-logo,.footer-logo{width:250px;left:50%;transform:translateX(-50%)}
+.header-logo{top:32px;display:block;z-index:4}
+.footer-logo{top:78.35%}
+
+
+/* TL requested update — 2026-09-02 (round 2) */
+.header-logo,
+.footer-logo{
+  width:150px;
+  min-width:150px;
+  max-width:150px;
+  left:calc(50% - 75px);
+  transform:translateX(-50%);
+}
+.about-mascot{left:calc(60.81% - 45px)}
+.section-p2{background:#fff}
+.partner-tagline{top:calc(29.6% - 20px)}
+
+
+/* TL requested update — 2026-09-02 (round 3) */
+/* Desktop */
+.hero-cloud{top:calc(17.2% + 10px)}
+.section-p2{margin-top:-45px}
+.footer-mail-icon{top:calc(79.6% + 2px)}
+.footer-mail-text{top:calc(80.82% + 2px)}
+.cta-list{top:calc(53.55% - 2px)}
+.section-p1__bg{top:0!important;left:0!important}
+
+
+/* TL requested update — 2026-09-02 (round 4) */
+/* Desktop */
+.section-p2{background:transparent !important;}
+.section-p2__bg{top:-100px !important;}
+.partner-cloud{top:calc(37.9% - 120px) !important;}
+.cta-heading{left:49.8%;right:14.5%;width:auto;top:calc(47.9% + 10px);font-size:2.68vw;line-height:1.05;text-align:left;white-space:nowrap;}
+
+/* v14 desktop integration: exact v7 geometry + two minimal fixes */
+/* 1) v7 shifts asset45 upward. Keep that positioning, but allow its top edge
+      to render instead of being clipped by the section boundary. */
+.section-p2{
+  overflow:visible !important;
+  background:var(--color-blue-dark) !important;
+}
+/* 2) The upward-shifted asset ends before the section bottom. The section's
+      dark-blue base now fills that remaining area instead of showing white. */
+
+
+/* TL merged v15 — desktop proportional/header and CTA refinement */
+/* Use the current comfortable 1000px-wide visual proportion as the reference. */
+.section-p1{overflow:visible !important;}
+/* keep sec1 background flush to the viewport top */
+.section-p1__bg{top:0 !important; left:0 !important;}
+/* slightly enlarge sec1 height to avoid the lower edge being clipped while keeping sec1/sec2 relationship visually close */
+.section-p1__layer{height:calc(100% + 3.2%);}
+
+/* Header logo: scale proportionally with page width instead of staying fixed. */
+.header-logo{
+  width:18.2%;
+  min-width:0;
+  max-width:none;
+  left:50%;
+  top:2.15%;
+  transform:translateX(-50%);
+}
+/* Keep footer logo behavior unchanged from current merged version. */
+
+/* Updated asset-47 layout / top section refinements */
+.hero-text{top:calc(30.2% + 0.75%);} 
+
+/* Efficient runner keeps current comfortable size/placement in this pass. */
+
+/* CTA block: widen the title slightly toward the QR-code right edge, and lift the whole block upward a little. */
+.cta-heading{
+  left:49.8%;
+  right:14.0%;
+  width:auto;
+  top:calc(47.9% + 10px - 2.2%);
+  font-size:2.76vw;
+  line-height:1.05;
+  text-align:left;
+  white-space:nowrap;
+}
+.cta-list{top:calc(53.55% - 2px - 2.2%);}
+.qrcode{top:calc(53.55% - 2.2%);}
+
+/* Keep the contact row visually aligned after the CTA lift. */
+.footer-logo{top:78.35%;}
+.footer-mail-icon{top:calc(79.6% + 2px);} 
+.footer-mail-text{top:calc(80.82% + 2px);} 
+
+@media (min-width:1441px){
+  .header-logo{width:18.2%;}
+  .cta-heading{font-size:39.8px;}
+}
+@media (max-width:1050px) and (min-width:768px){
+  .header-logo{width:18.2%;}
+  .cta-heading{font-size:2.72vw;}
+}
+
+
+/* TL merged v16 — 1000px desktop master stage, unlimited proportional scaling */
+html,body{background:#fff !important;}
+body{position:relative;min-width:0;}
+.page{
+  position:absolute;
+  top:0;
+  left:calc((100vw - 1000px)/2);
+  width:1000px;
+  min-width:1000px;
+  max-width:1000px;
+  margin:0;
+  transform-origin:top center;
+  background:#fff;
+}
+/* Freeze desktop typography/spacing at the preferred 1000px composition;
+   the whole stage is then scaled uniformly by JS. */
+.hero-text,.about-text,.cycle-text,.partner-text{font-size:17.36px !important;}
+.about-heading,.cycle-heading,.partner-heading{font-size:27.78px !important;}
+.cta-heading{font-size:27.6px !important;}
+.cta-list{font-size:25.43px !important;}
+.cta-list li{margin-bottom:15.5px !important;gap:8.5px !important;}
+.cta-arrow{width:15.5px !important;min-width:15.5px !important;max-width:15.5px !important;}
+.footer-mail-text,.footer-tel-text,.footer-copyright{font-size:9.72px !important;}
+
+/* 1–2. Header logo remains proportional to the master stage, enlarged and shifted left by half its own width. */
+.header-logo{
+  width:18.2% !important;
+  min-width:0 !important;
+  max-width:none !important;
+  left:40.9% !important;
+  top:2.15% !important;
+  transform:translateX(-50%) !important;
+}
+/* 3. Smart-farm heading + body move upward by roughly one third of their combined visual height. */
+.about-heading{top:46.6% !important;}
+.about-text{top:calc(54.35% - 5px - 3.5%) !important;}
+
+/* 4. Sustainability heading/body/tagline move upward as one visual group (~1/3 combined height). */
+.partner-heading{top:calc(13.55% - 5.0%) !important;}
+.partner-text{top:calc(17.55% - 5px - 5.0%) !important;}
+.partner-tagline{top:calc(29.6% - 20px - 5.0%) !important;}
+
+/* 5. Footer logo/mail group moves upward by approximately one footer-logo height. */
+.footer-logo{top:calc(78.35% - 4.6%) !important;}
+.footer-mail-icon{top:calc(79.6% + 2px - 4.6%) !important;}
+.footer-mail-text{top:calc(80.82% + 2px - 4.6%) !important;}
+
+/* Preserve current sec1/sec2 relation and the unclipped lower edge. */
+.section-p1{overflow:visible !important;}
+.section-p2{overflow:visible !important;}
+
+/* Fixed browser UI is intentionally outside the transformed .page stage. */
+.fab,.fab-overlay{transform-origin:initial;}
+
+
+/* TL merged v17 — execute latest desktop adjustments */
+/* Header logo centered on the screen while preserving proportional scaling with the 1000px master stage. */
+.header-logo{
+  left:50% !important;
+  transform:translateX(-50%) !important;
+}
+
+/* Sustain block moves downward roughly by the visual height of the English slogan. */
+.partner-heading{top:calc((13.55% - 5.0%) + 4.8%) !important;}
+.partner-text{top:calc((17.55% - 5px - 5.0%) + 4.8%) !important;}
+.partner-tagline{top:calc((29.6% - 20px - 5.0%) + 4.8%) !important;}
+
+/* Section 2 should not show an unintended solid band: keep the container/layer transparent and let the asset define the look. */
+.section-p2,
+.section-p2__layer{
+  background:transparent !important;
+}
+
+/* Cycle diagram: remove hover motion and replace it with a subtle breathing motion. */
+.cycle-diagram.hover-float{
+  transition:none !important;
+  filter:none !important;
+  transform-origin:center center;
+}
+.cycle-diagram.hover-float:hover{
+  transform:none !important;
+  filter:none !important;
+}
+@keyframes cycle-breathe{
+  0%{transform:scale(0.97)}
+  50%{transform:scale(1.03)}
+  100%{transform:scale(0.97)}
+}
+.cycle-diagram{
+  animation:cycle-breathe 5.8s ease-in-out infinite;
+  will-change:transform;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .cycle-diagram{animation:none !important; transform:none !important;}
+}
+
+
+/* TL merged v18 — desktop fine tuning */
+/* 1) cycle-diagram no longer carries a hover trigger in HTML; keep a clean breathing-only behavior. */
+
+/* 2) Cycle diagram lifts 5px in the 1000px master composition. */
+.cycle-diagram{
+  top:calc(72.64% - 5px) !important;
+}
+
+/* 3) Partner copy group lifts 20px in the 1000px master composition. */
+.partner-heading{top:calc(((13.55% - 5.0%) + 4.8%) - 20px) !important;}
+.partner-text{top:calc(((17.55% - 5px - 5.0%) + 4.8%) - 20px) !important;}
+.partner-tagline{top:calc(((29.6% - 20px - 5.0%) + 4.8%) - 20px) !important;}
+
+/* 4) Remove the lingering top hairline by slightly overscanning the hero background. */
+.section-p1__bg{
+  top:-2px !important;
+  left:0 !important;
+  width:100% !important;
+  height:calc(100% * var(--p1-h)/2010 + 4px) !important;
+}
+
+/* 5–8) Cloud entry + safe idle sway: both clouds remain partially outside the viewport at all times. */
+.hero-cloud{
+  right:0;
+  left:auto;
+  transform:translateX(calc(50px + 6%));
+  transition:transform 280ms cubic-bezier(.42,0,1,1);
+  will-change:transform;
+}
+.hero-cloud.cloud-in{transform:translateX(6%);}
+.hero-cloud.cloud-idle{animation:hero-cloud-drift 8.2s ease-in-out infinite;}
+@keyframes hero-cloud-drift{
+  0%,100%{transform:translateX(6%);}
+  25%{transform:translateX(3%);}
+  50%{transform:translateX(6%);}
+  75%{transform:translateX(9%);}
+}
+
+.partner-cloud{
+  left:0;
+  top:calc(37.9% - 50px);
+  transform:translateX(calc(-50px - 6%));
+  transition:transform 280ms cubic-bezier(.42,0,1,1);
+  will-change:transform;
+}
+.partner-cloud.cloud-in{transform:translateX(-6%);}
+.partner-cloud.cloud-idle{animation:partner-cloud-drift 8.2s ease-in-out infinite;}
+@keyframes partner-cloud-drift{
+  0%,100%{transform:translateX(-6%);}
+  25%{transform:translateX(-3%);}
+  50%{transform:translateX(-6%);}
+  75%{transform:translateX(-9%);}
+}
+
+/* 9) Fill the lower blank after asset45 is shifted by adding a safe bottom extension layer behind it. */
+.section-p2{
+  position:relative;
+  overflow:visible !important;
+}
+.section-p2::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:11%;
+  background:var(--color-blue-dark);
+  z-index:0;
+  pointer-events:none;
+}
+.section-p2__bg{
+  top:-50px !important;
+  bottom:auto;
+  height:auto;
+  z-index:1;
+}
+.section-p2__layer{z-index:2; background:transparent !important;}
+
+@media (prefers-reduced-motion:reduce){
+  .hero-cloud,.partner-cloud{transform:none !important; transition:none !important;}
+  .hero-cloud.cloud-idle,.partner-cloud.cloud-idle{animation:none !important;}
+}
+
+/* TL merged v19 — footer / sustain / cloud / top-bleed refinements */
+/* 1) Footer logo + mail group moves down by roughly one footer-logo height
+      from the v18 position. At the 1000px master this returns the group close
+      to the original v7 vertical anchor, while scaling proportionally with the stage. */
+.footer-logo{top:78.35% !important;}
+.footer-mail-icon{top:calc(79.6% + 2px) !important;}
+.footer-mail-text{top:calc(80.82% + 2px) !important;}
+
+/* 2) Sustainability heading/body/tagline move down 10px at the 1000px master width. */
+.partner-heading{top:calc((((13.55% - 5.0%) + 4.8%) - 20px) + 10px) !important;}
+.partner-text{top:calc((((17.55% - 5px - 5.0%) + 4.8%) - 20px) + 10px) !important;}
+.partner-tagline{top:calc((((29.6% - 20px - 5.0%) + 4.8%) - 20px) + 10px) !important;}
+
+/* 3) asset31 cloud moves down 10px while preserving its entry and idle-sway behavior. */
+.partner-cloud{top:calc(37.9% - 50px + 10px) !important;}
+
+/* 4) Top bleed: asset47's topmost color is #def1fb. Extend that color behind
+      the SVG so sub-pixel scaling can never reveal the white page background. */
+.section-p1::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:-14px;
+  height:18px;
+  background:var(--color-blue-light);
+  z-index:0;
+  pointer-events:none;
+}
+.section-p1__bg{z-index:1 !important;}
+.section-p1__layer{z-index:2 !important;}
+
+
+/* TL merged v20 — desktop refinements */
+/* Footer group moves down by roughly one footer-logo height in the 1000px master stage. */
+.footer-logo{top:calc(78.35% + 56px) !important;}
+.footer-mail-icon{top:calc((79.6% + 2px) + 56px) !important;}
+.footer-mail-text{top:calc((80.82% + 2px) + 56px) !important;}
+
+/* Sustainability group moves down by about one English-slogan height. */
+.partner-heading{top:calc(((((13.55% - 5.0%) + 4.8%) - 20px) + 10px) + 28px) !important;}
+.partner-text{top:calc(((((17.55% - 5px - 5.0%) + 4.8%) - 20px) + 10px) + 28px) !important;}
+.partner-tagline{top:calc(((((29.6% - 20px - 5.0%) + 4.8%) - 20px) + 10px) + 28px) !important;}
+
+/* asset31 cloud moves up by roughly one-third of its own rendered height. */
+.partner-cloud{top:calc((37.9% - 50px + 10px) - 23px) !important;}
+
+/* Extend the top bleed further to eliminate the remaining hairline. */
+.section-p1::before{
+  top:-28px !important;
+  height:34px !important;
+}
+.section-p1__bg{
+  top:-6px !important;
+  height:calc(100% * var(--p1-h)/2010 + 10px) !important;
+}
+
+/* Clouds: continuous ping-pong motion with no midpoint pause. */
+.hero-cloud.cloud-idle{animation:hero-cloud-pingpong 7.4s linear infinite !important;}
+@keyframes hero-cloud-pingpong{
+  0%{transform:translateX(3%);} 
+  50%{transform:translateX(9%);} 
+  100%{transform:translateX(3%);} 
+}
+.partner-cloud.cloud-idle{animation:partner-cloud-pingpong 7.4s linear infinite !important;}
+@keyframes partner-cloud-pingpong{
+  0%{transform:translateX(-9%);} 
+  50%{transform:translateX(-3%);} 
+  100%{transform:translateX(-9%);} 
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hero-cloud.cloud-idle,.partner-cloud.cloud-idle{animation:none !important;}
+}
+
+
+/* TL merged v22 — rebuilt from v20 visual geometry.
+   Only selected v21 behaviors are carried over. */
+
+/* Crisp SVG logo handling:
+   Position the AOS wrapper directly at the final coordinates instead of
+   centering the logo with translateX(). This avoids an extra nested transform
+   while preserving the exact v20 composition at the 1000px master width. */
+.header-logo-aos{
+  top:2.15% !important;
+  left:409px !important;
+  width:182px !important;
+  z-index:4;
+  margin:0;
+}
+.header-logo-aos img,
+.footer-logo-aos img{
+  width:100%;
+  height:auto;
+  display:block;
+  max-width:none;
+}
+.footer-logo-aos{
+  top:78.35% !important;
+  left:350px !important;
+  width:150px !important;
+  z-index:3;
+  margin:0;
+}
+
+/* Restore the footer contact group to the completed pre-v20-offset position.
+   v20 had appended an unintended +56px vertical offset to all three items. */
+.footer-mail-icon{top:calc(79.6% + 2px) !important;}
+.footer-mail-text{top:calc(80.82% + 2px) !important;}
+
+/* Engineer-style entrance motion is handled by AOS attributes in the markup.
+   Keep the same restrained timing already used by this build:
+   620ms / ease-out-cubic / once. */
+
+/* Preserve v20 QR geometry and move it down exactly 2px at the 1000px master. */
+.qrcode{
+  top:calc(53.55% - 2.2% + 2px) !important;
+  transition:none !important;
+  filter:none !important;
+}
+.qrcode:hover{
+  transform:none !important;
+  filter:none !important;
+}
+
+/* Keep the v21 guide-launch position, without importing other v21 layout changes. */
+.guide-launch{
+  left:72px !important;
+  bottom:max(72px,calc(env(safe-area-inset-bottom) + 72px)) !important;
+}
+
+/* Smart-farm title + paragraph move down by ~1/3 of the heading height.
+   Heading is ~30px tall at the 1000px master, so the shared shift is 10px. */
+.about-heading{top:calc(46.6% + 10px) !important;}
+.about-text{top:calc(54.35% - 5px - 3.5% + 10px) !important;}
+
+/* Preserve the exact v21 English-slogan position. */
+.partner-tagline{
+  top:calc(((((29.6% - 20px - 5.0%) + 4.8%) - 20px) + 10px) + 14px) !important;
+}
+
+/* Preserve the v21 continuous post-entry cloud behavior, but separate the
+   one-time entry movement (individual translate property) from the perpetual
+   sway (transform animation). This prevents asset31 from jumping when idle
+   animation takes over. */
+.hero-cloud{
+  right:0 !important;
+  left:auto !important;
+  translate:calc(50px + 7.5%) 0;
+  transform:translateX(-4.5%);
+  transition:translate 280ms cubic-bezier(.42,0,1,1) !important;
+  will-change:translate,transform;
+}
+.hero-cloud.cloud-in{
+  translate:7.5% 0;
+  transform:translateX(-4.5%);
+}
+.hero-cloud.cloud-idle{
+  animation:hero-cloud-v21-stable 8.6s ease-in-out infinite !important;
+}
+@keyframes hero-cloud-v21-stable{
+  0%,8%{transform:translateX(-4.5%);}
+  50%,58%{transform:translateX(4.5%);}
+  92%,100%{transform:translateX(-4.5%);}
+}
+
+.partner-cloud{
+  left:0 !important;
+  translate:calc(-50px - 7.5%) 0;
+  transform:translateX(-4.5%);
+  transition:translate 280ms cubic-bezier(.42,0,1,1) !important;
+  will-change:translate,transform;
+}
+.partner-cloud.cloud-in{
+  translate:-7.5% 0;
+  transform:translateX(-4.5%);
+}
+.partner-cloud.cloud-idle{
+  animation:partner-cloud-v21-stable 8.6s ease-in-out infinite !important;
+}
+@keyframes partner-cloud-v21-stable{
+  0%,8%{transform:translateX(-4.5%);}
+  50%,58%{transform:translateX(4.5%);}
+  92%,100%{transform:translateX(-4.5%);}
+}
+
+/* Low-risk stability improvements borrowed from the engineer's structure:
+   keep SVG/section seams overlapped rather than relying on exact subpixel edges. */
+.section-p1__bg{top:-6px !important;}
+.section-p2__bg{backface-visibility:hidden;}
+.section-p1,.section-p2{isolation:isolate;}
+
+@media (prefers-reduced-motion:reduce){
+  .hero-cloud,.partner-cloud{
+    translate:0 0 !important;
+    transform:none !important;
+    transition:none !important;
+  }
+  .hero-cloud.cloud-idle,.partner-cloud.cloud-idle{animation:none !important;}
+}
+
+
+/* TL merged v24 — desktop sharpness pass.
+   Preserve v23/v22 element coordinates; only change rendering/scaling behavior. */
+
+/* CSS zoom is now the primary desktop master-stage scaler.
+   Keep the existing center anchor so the 1000px composition remains centered. */
+.page{
+  transform:none;
+  transform-origin:top center;
+}
+
+/* AOS normally finishes on translateZ(0), which can leave logos/text/SVGs
+   on a composited raster layer. Finish at a true transform:none instead while
+   retaining the same entrance transition. */
+[data-aos].aos-animate{
+  transform:none !important;
+  will-change:auto !important;
+}
+
+/* Do not introduce raster-oriented rendering hints on vector identity assets. */
+.header-logo-aos,
+.footer-logo-aos,
+.header-logo-aos img,
+.footer-logo-aos img,
+.about-mascot,
+.qrcode img{
+  image-rendering:auto;
+  backface-visibility:visible;
+}
+
+/* Keep the cloud elements on their own intentional motion path only. */
+.hero-cloud.cloud-in,
+.hero-cloud.cloud-idle,
+.partner-cloud.cloud-in,
+.partner-cloud.cloud-idle{
+  backface-visibility:visible;
+}
+
+
+/* TL merged v25 — CSS zoom anchoring fix.
+   Under CSS zoom, the previous calc((100vw - 1000px)/2) left offset was itself
+   being magnified, creating an expanding white strip and pushing the page right.
+   JS now anchors the zoomed 1000px stage to x=0. */
+.page{
+  margin-left:0 !important;
+}
+
+
+/* TL merged v26 — footer logo copied from the header-logo implementation.
+   All X-axis / width / rendering / AOS behavior comes from .header-logo-aos.
+   Only Y is overridden to preserve the current footer-logo vertical position. */
+.footer-logo-clone{
+  top:78.35% !important;
+  z-index:3 !important;
+}
+
+/* The footer is now the same 182px direct-positioned SVG implementation as
+   the header, avoiding the older 150px footer-specific wrapper settings. */
+.footer-logo-clone img{
+  width:100%;
+  height:auto;
+  display:block;
+  max-width:none;
+  image-rendering:auto;
+  backface-visibility:visible;
+}
+
+
+/* TL merged v27 — QR-code micro alignment.
+   Keep the existing CTA composition; only fine-tune the QR box.
+   - Top aligns with the first external-link row.
+   - Bottom visually aligns with the last row by enlarging the square slightly.
+   - Right edge aligns with the CTA heading's 14% right boundary. */
+.qrcode{
+  top:calc(53.55% - 2px - 2.2%) !important;
+  left:auto !important;
+  right:14% !important;
+  width:15% !important;
+}
+
+/* TL merged v28 — QR-code micro nudge only. */
+.qrcode{
+  top:calc(53.55% - 2px - 2.2% + 4px) !important;
+  right:calc(14% + 5px) !important;
+  width:15% !important;
+}
+
+
+/* TL merged v29 — bottom-edge bleed fix (desktop).
+   Extend the dark-blue footer artwork beyond the geometric section edge so
+   non-integer zoom/device-pixel rounding cannot reveal the white page beneath. */
+.section-p2::after{
+  bottom:-3px !important;
+  height:calc(11% + 3px) !important;
+}
+
+
+/* TL merged v30 — v20 cloud travel + 1s endpoint holds.
+   Keep entry motion on `translate` and idle sway on `transform` so asset31
+   does not jump when the continuous animation takes over. */
+
+/* v20 final safe-overflow center is 6%, with a ±3% idle travel. */
+.hero-cloud{
+  translate:calc(50px + 6%) 0 !important;
+  transform:translateX(-3%);
+  transition:translate 280ms cubic-bezier(.42,0,1,1) !important;
+}
+.hero-cloud.cloud-in{
+  translate:6% 0 !important;
+  transform:translateX(-3%);
+}
+.hero-cloud.cloud-idle{
+  animation:hero-cloud-v20-with-holds 9.4s linear infinite !important;
+}
+@keyframes hero-cloud-v20-with-holds{
+  0%,10.64%{transform:translateX(-3%);}
+  50%,60.64%{transform:translateX(3%);}
+  100%{transform:translateX(-3%);}
+}
+
+.partner-cloud{
+  translate:calc(-50px - 6%) 0 !important;
+  transform:translateX(-3%);
+  transition:translate 280ms cubic-bezier(.42,0,1,1) !important;
+}
+.partner-cloud.cloud-in{
+  translate:-6% 0 !important;
+  transform:translateX(-3%);
+}
+.partner-cloud.cloud-idle{
+  animation:partner-cloud-v20-with-holds 9.4s linear infinite !important;
+}
+@keyframes partner-cloud-v20-with-holds{
+  0%,10.64%{transform:translateX(-3%);}
+  50%,60.64%{transform:translateX(3%);}
+  100%{transform:translateX(-3%);}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hero-cloud.cloud-idle,
+  .partner-cloud.cloud-idle{animation:none !important;}
+}
+
+
+/* TL merged v31 — scroll-boundary repair.
+   Keep the v29 bottom bleed visually, but do not paint outside the section box.
+   This removes the visual-overflow + artificial scroll-height combination that
+   was introduced in v29 and correlated with fullscreen scroll hitching. */
+.section-p2::after{
+  bottom:0 !important;
+  height:calc(11% + 3px) !important;
+}
+
+
+/* TL merged v32 — restore continuous cloud + cycle motion. */
+
+/* Cycle: AOS owns the outer wrapper only; breathing owns the inner SVG only.
+   This avoids the v24 [data-aos].aos-animate { transform:none!important; }
+   rule from suppressing the breathing transform. */
+.cycle-diagram-aos{
+  animation:none !important;
+  transform-origin:center center;
+}
+.cycle-diagram-breathe{
+  display:block;
+  width:100%;
+  height:auto;
+  max-width:none;
+  transform-origin:center center;
+  animation:cycle-breathe 5.8s ease-in-out infinite;
+  will-change:transform;
+}
+
+/* Cloud entry uses individual `translate`; idle motion uses `transform`.
+   Do not mark the steady transform as !important, otherwise it wins over the
+   keyframe animation and freezes the cloud at its entry position. */
+.hero-cloud,
+.hero-cloud.cloud-in,
+.partner-cloud,
+.partner-cloud.cloud-in{
+  /* intentionally no !important on transform */
+}
+
+@media (prefers-reduced-motion:reduce){
+  .cycle-diagram-breathe{
+    animation:none !important;
+    transform:none !important;
+  }
+}
+
+
+/* TL merged v38 — motion refinement. */
+
+/* Clouds:
+   Keep the current v20-derived path/timing/endpoint holds.
+   Only extend the outward endpoint by 10%:
+   9% safe overflow -> 9.9%, while the inward 3% endpoint stays unchanged. */
+.hero-cloud.cloud-idle{
+  animation:hero-cloud-v38-outward 9.4s linear infinite !important;
+}
+@keyframes hero-cloud-v38-outward{
+  0%,10.64%{transform:translateX(-3%);}
+  50%,60.64%{transform:translateX(3.9%);}
+  100%{transform:translateX(-3%);}
+}
+
+.partner-cloud.cloud-idle{
+  animation:partner-cloud-v38-outward 9.4s linear infinite !important;
+}
+@keyframes partner-cloud-v38-outward{
+  0%,10.64%{transform:translateX(-3.9%);}
+  50%,60.64%{transform:translateX(3%);}
+  100%{transform:translateX(-3.9%);}
+}
+
+/* Efficient:
+   AOS controls the outer wrapper only.
+   The inner standalone SVG gets a slow, low-amplitude continuous sway so the
+   established composition/position remains untouched. */
+.about-mascot-aos{
+  transform-origin:center center;
+}
+.about-mascot-wave{
+  display:block;
+  width:100%;
+  height:auto;
+  max-width:none;
+  transform-origin:58% 58%;
+  animation:efficient-gentle-wave 6.8s ease-in-out infinite;
+  will-change:transform;
+}
+@keyframes efficient-gentle-wave{
+  0%,100%{transform:translate(0,0) rotate(0deg);}
+  25%{transform:translate(-1.5px,-2px) rotate(-1.1deg);}
+  50%{transform:translate(0,0) rotate(0deg);}
+  75%{transform:translate(1.5px,2px) rotate(1.1deg);}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hero-cloud.cloud-idle,
+  .partner-cloud.cloud-idle,
+  .about-mascot-wave{
+    animation:none !important;
+    transform:none !important;
+  }
+}
+
+
+/* TL merged v39 — motion direction / ping-pong refinement. */
+
+/* Efficient:
+   True two-endpoint ping-pong. No intermediate center keyframe, so there is
+   no easing slowdown in the middle of the wave. */
+.about-mascot-wave{
+  animation:efficient-gentle-pingpong 3.4s ease-in-out infinite alternate !important;
+}
+@keyframes efficient-gentle-pingpong{
+  from{transform:translate(-1.5px,-2px) rotate(-1.1deg);}
+  to{transform:translate(1.5px,2px) rotate(1.1deg);}
+}
+
+/* Clouds:
+   Preserve the current entry direction, endpoint holds and travel range,
+   but make the first idle movement go LEFT immediately after entry.
+
+   Right-side hero cloud:
+   entry ends at the outward/right endpoint (9.9% overflow), then moves left
+   toward the 3% overflow endpoint.
+
+   Left-side partner cloud:
+   entry ends at the inward/right endpoint (3% overflow), then moves left
+   toward the 9.9% outward endpoint.
+*/
+.hero-cloud{
+  transform:translateX(3.9%);
+}
+.hero-cloud.cloud-in{
+  transform:translateX(3.9%);
+}
+.hero-cloud.cloud-idle{
+  animation:hero-cloud-v39-left-first 9.4s linear infinite !important;
+}
+@keyframes hero-cloud-v39-left-first{
+  0%,10.64%{transform:translateX(3.9%);}
+  50%,60.64%{transform:translateX(-3%);}
+  100%{transform:translateX(3.9%);}
+}
+
+.partner-cloud{
+  transform:translateX(3%);
+}
+.partner-cloud.cloud-in{
+  transform:translateX(3%);
+}
+.partner-cloud.cloud-idle{
+  animation:partner-cloud-v39-left-first 9.4s linear infinite !important;
+}
+@keyframes partner-cloud-v39-left-first{
+  0%,10.64%{transform:translateX(3%);}
+  50%,60.64%{transform:translateX(-3.9%);}
+  100%{transform:translateX(3%);}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .about-mascot-wave,
+  .hero-cloud.cloud-idle,
+  .partner-cloud.cloud-idle{
+    animation:none !important;
+    transform:none !important;
+  }
+}
+
+
+/* TL merged v40 — soften cloud entry landing.
+   Keep the same entry distance/direction; only add a brief ease-out so the
+   cloud decelerates naturally before the post-entry leftward drift begins. */
+.hero-cloud,
+.partner-cloud{
+  transition:translate 300ms cubic-bezier(.22,.61,.36,1) !important;
+}
+
+
+/* TL merged v41 — engineer-style cloud entrance + scroll-synchronised travel.
+   The previous class-based entry + autonomous idle animation is superseded.
+   AOS acts on the wrapper; scroll movement acts on the inner SVG, so the two
+   transform systems never compete. */
+
+.hero-cloud-wrap{
+  top:calc(17.2% + 10px) !important;
+  right:0 !important;
+  left:auto !important;
+  width:24.1% !important;
+  z-index:3;
+  pointer-events:none;
+  overflow:visible;
+}
+.partner-cloud-wrap{
+  top:calc((37.9% - 50px + 10px) - 23px) !important;
+  left:0 !important;
+  width:43% !important;
+  z-index:2;
+  pointer-events:none;
+  overflow:visible;
+}
+
+.hero-cloud,
+.partner-cloud{
+  position:relative !important;
+  top:auto !important;
+  left:auto !important;
+  right:auto !important;
+  width:100% !important;
+  max-width:none !important;
+  display:block;
+  margin:0;
+  animation:none !important;
+  transition:none !important;
+  translate:none !important;
+  will-change:transform;
+}
+
+/* Initial safe positions before the first scroll calculation. */
+.hero-cloud{transform:translateX(9.9%);}
+.partner-cloud{transform:translateX(-9.9%);}
+
+/* Disable all legacy class-driven cloud movement from older iterations. */
+.hero-cloud.cloud-in,
+.hero-cloud.cloud-idle,
+.partner-cloud.cloud-in,
+.partner-cloud.cloud-idle{
+  animation:none !important;
+  transition:none !important;
+  translate:none !important;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hero-cloud{transform:translateX(3%) !important;}
+  .partner-cloud{transform:translateX(-3%) !important;}
+}
+
+
+/* TL merged v42 — +15% scroll-synchronised cloud travel.
+   Preserve the same visual midpoint; expand only the horizontal travel range.
+   Previous: 9.9% <-> 3.0% (6.9% travel)
+   New:     10.42% <-> 2.48% (7.94% travel, +15%) */
+.hero-cloud{transform:translateX(10.42%);}
+.partner-cloud{transform:translateX(-10.42%);}
+
+@media (prefers-reduced-motion:reduce){
+  .hero-cloud{transform:translateX(2.48%) !important;}
+  .partner-cloud{transform:translateX(-2.48%) !important;}
+}

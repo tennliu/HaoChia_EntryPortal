@@ -1,0 +1,231 @@
+@font-face{font-family:"Source Han Sans TC";src:url("https://no-ttt.github.io/HaoChia/phone/assets/fonts/SourceHanSansTC-Medium.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Source Han Sans TC";src:url("https://no-ttt.github.io/HaoChia/phone/assets/fonts/SourceHanSansTC-Bold.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+:root{--blue-deep:#0E357F;--blue:#004EA2;--white:#FFFFFD;--green:#009E3B;--coral:#EF857D;--gray:#525152}
+*{box-sizing:border-box;margin:0;padding:0}html,body{width:100%;overflow-x:hidden}html{scroll-behavior:auto}body{font-family:"Source Han Sans TC","Noto Sans TC",sans-serif;background:#0e1a46;color:var(--gray);-webkit-font-smoothing:antialiased}img{max-width:100%;display:block}a{color:inherit;text-decoration:none}.page{width:100%;max-width:430px;margin:0 auto;position:relative}
+body.is-loading .page{visibility:hidden}.page-loader{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:#fff;transition:opacity .3s ease}body:not(.is-loading) .page-loader{opacity:0;pointer-events:none}.page-loader-logo{width:120px;animation:page-loader-pulse 1.2s ease-in-out infinite}@keyframes page-loader-pulse{0%,100%{opacity:.4;transform:scale(.94)}50%{opacity:1;transform:scale(1)}}
+.sec1{position:relative;background:var(--blue-deep)}.sec1-hero{position:relative;aspect-ratio:390/389;background-image:url("https://no-ttt.github.io/HaoChia/phone/assets/p1_bg.svg");background-size:100% 110%;background-repeat:no-repeat;background-position:top center;padding:20px 24px 0;text-align:center}.logo-icon{width:150px;margin:0 auto}.sec1-copy{padding:0 24px;margin:0 0 18px;font-size:17px;line-height:27px;font-weight:500;letter-spacing:.06em;color:#fff;text-align:left;word-break:normal}.sec1-photo{position:relative;width:100%;line-height:0}.sec1-photo img{width:100%;height:auto;object-fit:cover}
+.sec-title{font-size:30px;font-weight:700;line-height:1.05;color:#fff;text-align:center;letter-spacing:.06em;margin-bottom:18px}.sec-title.dark{color:var(--blue-deep)}.sec-body{font-size:17px;line-height:27px;font-weight:500;letter-spacing:.06em;color:#fff;text-align:left;word-break:normal}.sec-body.dark{color:var(--blue-deep)}
+.sec2{background:var(--blue);position:relative;margin-top:-1px}.sec2-block1{padding:10px 24px 0}.mascot-wrap{position:relative;margin-bottom:12px;padding-bottom:20px}.mascot-wrap .p2-mascot{position:relative;z-index:2;width:80%;margin:0 auto}.p2-bg-wrap{position:relative;overflow:hidden;height:95px;background:var(--blue);margin-top:-24px}.p2-bg{display:block;max-width:none;width:130%;height:auto;position:absolute;top:0;left:50%;transform:translateX(-50%) translateZ(0)}.sec2-block2{background:#fff;padding:12px 24px 0;margin-top:-1px}.diagram-wrap{margin-top:26px;text-align:center}.diagram-wrap img{width:100%;max-width:360px;margin:0 auto}
+.sec3{position:relative;margin-top:-46.15%}.sec3-photo{position:relative;width:100%;height:560px;overflow:hidden}.sec3-photo img{max-width:none;width:120%;height:auto;display:block;margin-left:-2%}.sec3-green{position:relative;background:var(--green);margin-top:-2px;padding:34px 24px 46px}.sec3-green .sec-title{margin-bottom:20px}.sec3-green .sec-body{line-height:27px}.en-tagline{font-size:26px;font-weight:700;color:var(--coral);line-height:1.06;margin-top:18px;letter-spacing:.02em;text-align:center}
+.sec4-video{position:relative;width:100%;aspect-ratio:390/429;background:#332F2C;margin-top:-1px;overflow:hidden}.sec4-video video{width:100%;height:100%;object-fit:cover;display:block}.sec4{position:relative;overflow:hidden;margin-top:-1px}.sec4-illustration{position:relative}.sec4-wave{display:block;max-width:none;width:160%;margin-left:-32%}.doGood-links{position:absolute;right:15.5%;top:19.9%;list-style:none;display:flex;flex-direction:column;gap:12px}.doGood-links li{display:flex;align-items:center;gap:7px;font-size:20px;font-weight:500;line-height:1.02;letter-spacing:.04em;color:#fff;white-space:nowrap}.doGood-links img{width:10px;height:13px;flex-shrink:0}.sec4-contact{position:absolute;left:0;right:0;top:53.1%;z-index:2;text-align:center;padding:0 24px 20px}.contact-row{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;margin-bottom:9px}.contact-row img{width:20px;height:auto}.contact-row span{font-size:14px;font-weight:700;line-height:27px;color:var(--blue-deep)}.footer-logo{display:flex;flex-direction:column;align-items:center;margin:4px 0 0}.footer-logo img{width:132px}.sec4-copyright{position:absolute;left:0;right:0;bottom:16px;z-index:2;text-align:center;color:#fff;font-size:11px;letter-spacing:.04em;opacity:.88;padding:0 24px}
+.fab{position:fixed;right:0;top:50%;transform:translateY(-50%);width:56px;height:56px;z-index:50;border:0;padding:0;background:none;cursor:pointer;filter:drop-shadow(0 4px 10px rgba(0,0,0,.20));transition:opacity .2s ease}.fab img{width:100%;height:100%}.fab.hidden{opacity:0;pointer-events:none}.fab-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,158,59,.82);opacity:0;pointer-events:none;transition:opacity .25s ease}.fab-overlay.open{opacity:1;pointer-events:auto}.fab-overlay-menu{position:relative;z-index:2;list-style:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;height:100%;padding:0 24px}.fab-overlay-menu a{font-size:24px;font-weight:700;color:#fff;letter-spacing:.04em}
+@media (max-width:360px){.sec1-copy,.sec-body{font-size:16px;line-height:25px}.sec-title{font-size:28px}.doGood-links li{font-size:18px}.doGood-links{right:14%}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}[data-aos]{transition:none!important;transform:none!important}}
+
+/* TL rebase: new content/features, engineer geometry retained */
+.doGood-links a{color:inherit;text-decoration:none}.sec4-contact .contact-row a{font-size:14px;font-weight:700;line-height:27px;color:var(--blue-deep)}.line-link{display:grid;place-items:center;width:46px;height:46px;margin:4px auto 10px;border-radius:50%;background:#13b83e;color:#fff!important;font-size:13px;font-weight:700;text-decoration:none}.guide-source-video{transition:opacity .2s ease}
+
+/* TL v1 refinement — mobile requested replacements */
+.sec3-photo{overflow:hidden}
+.sec3-cloud{position:absolute;left:-5%;bottom:-2px;width:92%;z-index:3;pointer-events:none}
+.sec4-video{aspect-ratio:16/9;height:auto;background:#332F2C}
+.sec4-video video{width:100%;height:100%;object-fit:contain}
+.line-link{display:grid;place-items:center;width:37px;height:35px;margin:4px auto 10px;border-radius:0;background:transparent;color:inherit!important}
+.line-link img{width:37px;height:35px;display:block}
+.sec4-contact{top:calc(53.1% + 20px)}
+.footer-logo img{width:145px}
+
+
+/* TL requested mobile update — 2026-09-02 */
+.logo-icon{width:120px}
+.sec1-photo{position:relative;overflow:hidden}
+.sec1-cloud{position:absolute;top:-8px;left:0;width:100%;z-index:2;pointer-events:none}
+.sec1-pigs{position:relative;z-index:1;width:100%;height:auto;display:block}
+.mascot-wrap .p2-mascot{width:250px;max-width:100%;margin:-5px auto 0}
+.sec3{margin-top:0}
+.sec3-photo{height:auto}
+.sec3-photo .sec3-fruit{width:100%;height:auto;margin-left:0;max-width:none}
+.sec3-cloud{width:100%;left:0;bottom:0}
+.sec4-video,.sec4{margin-top:0}
+.doGood-links{right:calc(15.5% - 10px);top:calc(19.9% - 5px)}
+.contact-row{display:none}
+.contact-icons{display:flex;justify-content:center;align-items:center;gap:45px;transform:translateY(-5px);margin-bottom:4px}
+.contact-icons a{display:grid;place-items:center;width:40px;height:40px;background:transparent;border-radius:0}
+.contact-icons img{width:40px;height:auto;display:block}
+.line-link{width:40px;height:40px;margin:0}
+.line-link img{width:40px;height:auto}
+.sec4-contact{top:calc(53.1% + 15px)}
+.footer-logo{margin:calc(4px - 10px) 0 0}
+
+
+/* TL requested update — 2026-09-02 (round 2) */
+.sec1-hero{background-image:url("../shared/assets/tl/sec1_bg-mobile.svg");background-size:100% auto;background-position:top center}
+.sec1-cloud{left:auto;right:0;transform:translateX(49px);opacity:.001;transition:transform 340ms cubic-bezier(.42,0,1,1),opacity 340ms cubic-bezier(.42,0,1,1);will-change:transform,opacity}
+.sec1-cloud.cloud-in{transform:translateX(0);opacity:1}
+.diagram-wrap img{transform:translateY(-5px)}
+.sec3-cloud{left:0;bottom:15px;transform:translateX(-49px);opacity:.001;transition:transform 340ms cubic-bezier(.42,0,1,1),opacity 340ms cubic-bezier(.42,0,1,1);will-change:transform,opacity}
+.sec3-cloud.cloud-in{transform:translateX(0);opacity:1}
+.footer-logo img{width:160px}
+.footer-logo{transform:translateY(25px)}
+@media (prefers-reduced-motion:reduce){
+  .sec1-cloud,.sec3-cloud{transform:none!important;opacity:1!important;transition:none!important}
+}
+
+
+/* TL requested update — 2026-09-02 (round 3) */
+/* Mobile */
+.sec1{background:#fff;margin-top:0}
+.sec1-hero{
+  background-color:#fff;
+  background-image:url("../shared/assets/tl/sec1_bg-mobile.svg");
+  background-position:top center;
+  background-repeat:no-repeat;
+  background-size:100% auto;
+  margin-top:0;
+}
+
+
+/* TL requested update — 2026-09-02 (round 4) */
+/* Mobile */
+.sec1{background:#fff !important;}
+.sec1-hero{position:relative;overflow:hidden;background:none !important;}
+.sec1-hero-bg{position:absolute;top:0;left:0;width:100%;height:auto;z-index:0;display:block;}
+.sec1-hero > *:not(.sec1-hero-bg){position:relative;z-index:1;}
+.doGood-links{top:calc(19.9% - 5px + 3px) !important;}
+.doGood-links li img{position:relative;top:3px;}
+.footer-logo img{width:180px !important;}
+
+
+/* TL requested update — 2026-09-02 (round 5): complete mobile hero */
+.sec1{background:#fff !important;}
+.sec1-hero{
+  position:relative;
+  width:100%;
+  aspect-ratio:420/856.3;
+  padding:0;
+  overflow:hidden;
+  background:none !important;
+  text-align:left;
+}
+.sec1-hero-bg{
+  position:absolute;
+  inset:0 auto auto 0;
+  width:100%;
+  height:auto;
+  z-index:0;
+  display:block;
+}
+.sec1-hero .logo-icon{
+  position:absolute;
+  z-index:2;
+  top:20px;
+  left:calc(50% - 60px);
+  width:120px;
+  margin:0;
+  transform:translateX(-50%);
+}
+.sec1-hero .sec1-copy{
+  position:absolute;
+  z-index:2;
+  top:calc(45.5% + 50px);
+  left:0;
+  width:100%;
+  padding:0 24px;
+  margin:0;
+  color:#fff;
+  font-size:17px;
+  line-height:27px;
+  font-weight:500;
+  letter-spacing:.06em;
+  text-align:left;
+}
+.sec1-photo{display:none !important;}
+@media (max-width:360px){
+  .sec1-hero .sec1-copy{font-size:16px;line-height:25px;}
+}
+
+
+/* TL requested update — 2026-09-02 (round 6) */
+.page{background:#0e1a46;}
+.sec1-hero{aspect-ratio:420/856.3;}
+
+/* TL requested update — 2026-09-02 (overall + mobile round) */
+body,.page{background:#0e1a46;}
+.sec1-hero .sec1-copy{top:calc(45.5% + 50px - 20px);left:3px;}
+.sec-title,.sec-body{position:relative;left:3px;}
+.mascot-wrap .p2-mascot{width:270px;max-width:100%;}
+.sec4,.sec4-illustration{background:#fff;}
+/* likely anti-alias seam above the pig photo from SVG edge rendering; overscan slightly to hide the hairline */
+.sec1-hero-bg{width:100.6%;left:-0.3%;top:-0.5px;}
+
+
+/* TL requested update — mobile round v12 */
+.en-tagline{
+  font-size:28.6px !important;
+}
+.sec1-cloud{
+  position:absolute;
+  top:-8px;
+  right:0;
+  left:auto;
+  width:100%;
+  z-index:2;
+  pointer-events:none;
+  transform:translateX(49px);
+  opacity:.001;
+  transition:transform 340ms cubic-bezier(.42,0,1,1),opacity 340ms cubic-bezier(.42,0,1,1);
+  will-change:transform,opacity;
+}
+.sec1-cloud.cloud-in{transform:translateX(0);opacity:1}
+.sec1-hero-bg{
+  width:101% !important;
+  left:-0.5% !important;
+  top:-0.5px !important;
+  max-width:none;
+}
+@media (max-width:430px){
+  .page{
+    width:430px;
+    max-width:none;
+    transform-origin:top center;
+  }
+}
+
+
+/* Integration pass v13: preserve v12 mobile, move footer contact/logo slightly lower */
+.contact-icons{
+  transform:translateY(3px) !important;
+}
+.footer-logo{
+  transform:translateY(33px) !important;
+}
+
+
+/* TL merged v29 — bottom-edge bleed fix (mobile).
+   Add a 3px dark-blue safety extension below p4 artwork so scaled anti-alias
+   pixels never expose the white illustration background at the page edge. */
+.sec4-illustration::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-3px;
+  height:4px;
+  background:var(--blue-deep);
+  z-index:3;
+  pointer-events:none;
+}
+
+
+/* TL merged v30 — mobile copyright typography aligned with desktop treatment. */
+.sec4-copyright{
+  font-weight:700 !important;
+  letter-spacing:.02em !important;
+  opacity:1 !important;
+}
+
+
+/* TL merged v31 — mobile bottom bleed contained inside the page boundary. */
+.sec4-illustration::after{
+  bottom:0 !important;
+  height:4px !important;
+}
+
+
+
+
+/* TL merged v36 — center the mobile guide button horizontally. */
+.guide-launch{
+  left:50% !important;
+  transform:translateX(-50%);
+}

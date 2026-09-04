@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_圖層_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/" version="1.1" viewBox="0 0 1000 300">
+  <defs>
+    <style>
+      .st0 { fill: url(#_未命名漸層_4); }
+    </style>
+    <linearGradient id="_未命名漸層_4" data-name="未命名漸層 4" x1="500" y1="287.9" x2="500" y2="587.9" gradientTransform="translate(0 587.9) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#004ea2" stop-opacity=".6"/>
+      <stop offset=".1" stop-color="#004ea2" stop-opacity=".4"/>
+      <stop offset=".2" stop-color="#004ea2" stop-opacity=".25"/>
+      <stop offset=".3" stop-color="#004ea2" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#004ea2" stop-opacity="0"/>
+      <stop offset="1" stop-color="#004ea2" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g id="_圖層_1-2">
+    <rect class="st0" x="0" y="0" width="1000" height="300"/>
+  </g>
+</svg>
