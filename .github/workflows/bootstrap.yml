@@ -1,0 +1,62 @@
+name: Bootstrap EntryPortal from HaoChia_Portal v47.1
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/bootstrap.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout EntryPortal
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout published v47.1 source
+        uses: actions/checkout@v4
+        with:
+          repository: tennliu/HaoChia_Portal
+          ref: 16f90295bb3156402d6fee8be32c73b3ca76911c
+          path: _source
+
+      - name: Copy site without touching EntryPortal workflows
+        run: |
+          rsync -a --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='_source/' \
+            _source/ ./
+          rm -rf _source
+
+      - name: Snapshot legacy first-party assets into EntryPortal
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p shared/assets/fonts shared/assets/local/web shared/assets/local/phone
+          base='https://no-ttt.github.io/HaoChia'
+          curl -fL --retry 4 --retry-delay 2 "$base/web/assets/fonts/SourceHanSansTC-Medium.woff2" -o shared/assets/fonts/SourceHanSansTC-Medium.woff2
+          curl -fL --retry 4 --retry-delay 2 "$base/web/assets/fonts/SourceHanSansTC-Bold.woff2" -o shared/assets/fonts/SourceHanSansTC-Bold.woff2
+          for f in logo.svg mail-icon.svg p2_img_2.svg; do
+            curl -fL --retry 4 --retry-delay 2 "$base/web/assets/$f" -o "shared/assets/local/web/$f"
+          done
+          for f in arrow_icon.svg mail-icon.svg p1_bg.svg p1_logo.svg p2_bg.svg p2_img_2.svg p4_bg.svg p4_icon.svg; do
+            curl -fL --retry 4 --retry-delay 2 "$base/phone/assets/$f" -o "shared/assets/local/phone/$f"
+          done
+
+      - name: Commit copied site
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'No changes to commit.'
+          else
+            git commit -m 'bootstrap: copy HaoChia_Portal v47.1 and snapshot legacy assets'
+            git push origin main
+          fi
