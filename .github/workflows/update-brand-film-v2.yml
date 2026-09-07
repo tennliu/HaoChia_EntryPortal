@@ -23,8 +23,24 @@ jobs:
           set -euo pipefail
           python3 -m pip install --quiet gdown
           gdown '1LTx59wN69VFsWXtCmuxMYjSmOI3qcpij' -O /tmp/haochia-master.mp4
-          echo '835886e2a80fa5d8dcb0723d16cb50c5186efa8780db904ae36daef7ccc5d5d0  /tmp/haochia-master.mp4' | sha256sum -c -
-          ffprobe -v error -show_entries format=duration,size,bit_rate -show_entries stream=codec_name,width,height,r_frame_rate -of json /tmp/haochia-master.mp4
+          sha256sum /tmp/haochia-master.mp4
+          ffprobe -v error -select_streams v:0 \
+            -show_entries stream=codec_name,width,height,r_frame_rate \
+            -show_entries format=duration,size,bit_rate \
+            -of json /tmp/haochia-master.mp4 > /tmp/probe.json
+          cat /tmp/probe.json
+          python3 - <<'PY'
+          import json
+          p=json.load(open('/tmp/probe.json'))
+          s=p['streams'][0]; f=p['format']
+          assert s['codec_name']=='h264', s
+          assert int(s['width'])==1920 and int(s['height'])==1080, s
+          assert s['r_frame_rate']=='30/1', s
+          d=float(f['duration'])
+          assert 92.8 <= d <= 93.2, d
+          assert int(f['size']) > 100_000_000, f['size']
+          print('Media fingerprint verified.')
+          PY
 
       - name: Encode web-optimized 1080p MP4 and poster
         shell: bash
@@ -49,7 +65,6 @@ jobs:
           set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
-
           files=[Path('web/index.html'),Path('phone/index.html')]
           for p in files:
               s=p.read_text(encoding='utf-8')
@@ -57,10 +72,8 @@ jobs:
               s=s.replace('../shared/assets/haochia-wip-poster.jpg','../shared/assets/haochia-brand-film-90s-v2-poster.jpg')
               s=s.replace('{t:37,target:"cycle"','{t:40,target:"cycle"')
               p.write_text(s,encoding='utf-8')
-
           for old in [Path('shared/assets/haochia-wip.mp4'),Path('shared/assets/haochia-wip-poster.jpg')]:
               if old.exists(): old.unlink()
-
           leftovers=[]
           for p in files:
               if 'haochia-wip' in p.read_text(encoding='utf-8'): leftovers.append(str(p))
