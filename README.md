@@ -34,3 +34,10 @@ All project-owned visual assets, video, poster and web fonts used by the rendere
 
 ## QA
 Test from the root URL as well as direct `/web/` and `/phone/` URLs. When testing a different device width in DevTools, reload after changing the viewport so the redirect runs with the intended width.
+
+## Brand film v2
+- Master source: `智慧好嘉_循環經濟品牌生態影片_90s_中英文字幕版本.mp4` (93s, 1920×1080 H.264/AAC).
+- Runtime file: `shared/assets/haochia-brand-film-90s-v2.mp4`, re-encoded as H.264/AAC with `faststart` for web delivery.
+- Poster: `shared/assets/haochia-brand-film-90s-v2-poster.jpg` from the final brand frame.
+- Guide cue timing: intro 0s / smart 9s / cycle 40s / partner 63s / CTA 75s.
+- The original client-facing `HaoChia_Portal` repository remains unchanged.
