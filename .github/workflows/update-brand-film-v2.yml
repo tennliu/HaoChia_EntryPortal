@@ -22,7 +22,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m pip install --quiet gdown
-          gdown --id '1LTx59wN69VFsWXtCmuxMYjSmOI3qcpij' -O /tmp/haochia-master.mp4
+          gdown '1LTx59wN69VFsWXtCmuxMYjSmOI3qcpij' -O /tmp/haochia-master.mp4
           echo '835886e2a80fa5d8dcb0723d16cb50c5186efa8780db904ae36daef7ccc5d5d0  /tmp/haochia-master.mp4' | sha256sum -c -
           ffprobe -v error -show_entries format=duration,size,bit_rate -show_entries stream=codec_name,width,height,r_frame_rate -of json /tmp/haochia-master.mp4
 
@@ -55,15 +55,12 @@ jobs:
               s=p.read_text(encoding='utf-8')
               s=s.replace('../shared/assets/haochia-wip.mp4','../shared/assets/haochia-brand-film-90s-v2.mp4')
               s=s.replace('../shared/assets/haochia-wip-poster.jpg','../shared/assets/haochia-brand-film-90s-v2-poster.jpg')
-              # New master enters the circular-resource chapter at ~40s rather than 37s.
               s=s.replace('{t:37,target:"cycle"','{t:40,target:"cycle"')
               p.write_text(s,encoding='utf-8')
 
-          # Keep the package clean: git history remains the rollback source.
           for old in [Path('shared/assets/haochia-wip.mp4'),Path('shared/assets/haochia-wip-poster.jpg')]:
               if old.exists(): old.unlink()
 
-          # Runtime HTML must no longer reference the old media.
           leftovers=[]
           for p in files:
               if 'haochia-wip' in p.read_text(encoding='utf-8'): leftovers.append(str(p))
