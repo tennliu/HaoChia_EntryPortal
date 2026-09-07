@@ -41,3 +41,4 @@ Test from the root URL as well as direct `/web/` and `/phone/` URLs. When testin
 - Poster: `shared/assets/haochia-brand-film-90s-v2-poster.jpg` from the final brand frame.
 - Guide cue timing: intro 0s / smart 9s / cycle 40s / partner 63s / CTA 75s.
 - The original client-facing `HaoChia_Portal` repository remains unchanged.
+- Brand film v2 published to EntryPortal Pages on 2026-09-07.
